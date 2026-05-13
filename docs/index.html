@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Talk2Me — AI Chat Reply Assistant</title>
+  <meta name="description" content="AI-powered chat reply assistant for WhatsApp, Discord, Telegram, Instagram, and more. Select messages, press a shortcut, get a reply that matches your tone." />
+  <link rel="icon" href="logo.png" type="image/png" />
+
+  <meta property="og:title" content="Talk2Me — AI Chat Reply Assistant" />
+  <meta property="og:description" content="Select chat messages, press Ctrl+Shift+A, get an AI-generated reply in seconds." />
+  <meta property="og:image" content="logo.png" />
+  <meta property="og:type" content="website" />
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f7f7f8;
+      --surface: #ffffff;
+      --text: #09090b;
+      --text-secondary: #3f3f46;
+      --text-muted: #71717a;
+      --text-faint: #a1a1aa;
+      --border: #e4e4e7;
+      --border-soft: #f4f4f5;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 64px 24px;
+    }
+
+    /* ── Hero ──────────────────────────────────────────────────────── */
+    .hero {
+      text-align: center;
+      margin-bottom: 72px;
+    }
+    .hero-logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 18px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04);
+      margin-bottom: 22px;
+    }
+    .hero h1 {
+      font-size: 38px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    .hero p.tagline {
+      font-size: 17px;
+      color: var(--text-muted);
+      max-width: 460px;
+      margin: 0 auto;
+      letter-spacing: -0.01em;
+    }
+
+    /* ── Sections ──────────────────────────────────────────────────── */
+    section { margin-bottom: 56px; }
+
+    h2 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+      color: var(--text);
+    }
+    h3 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      margin-top: 22px;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+    h3:first-child { margin-top: 0; }
+
+    p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+    }
+
+    /* ── Steps ─────────────────────────────────────────────────────── */
+    .steps {
+      list-style: none;
+      counter-reset: step;
+    }
+    .steps li {
+      counter-increment: step;
+      padding: 14px 16px 14px 50px;
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 8px;
+      font-size: 14.5px;
+      color: var(--text-secondary);
+    }
+    .steps li::before {
+      content: counter(step);
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    kbd {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-bottom-width: 1.5px;
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 12px;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* ── Platform pills ────────────────────────────────────────────── */
+    .platforms {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 12px;
+      border-radius: 9999px;
+      font-size: 12.5px;
+      font-weight: 500;
+      border: 1px solid;
+      line-height: 1.6;
+    }
+    .beta {
+      font-size: 11px;
+      font-style: italic;
+      opacity: 0.55;
+      margin-left: -2px;
+    }
+
+    /* ── Privacy ───────────────────────────────────────────────────── */
+    #privacy {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 32px;
+    }
+    #privacy h2 {
+      margin-bottom: 8px;
+    }
+    .privacy-date {
+      font-size: 12.5px;
+      color: var(--text-faint);
+      margin-bottom: 24px;
+    }
+    #privacy h3 { margin-top: 20px; }
+    #privacy p, #privacy li { font-size: 14.5px; line-height: 1.65; }
+    #privacy ul {
+      padding-left: 20px;
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+    #privacy li { margin-bottom: 4px; }
+    #privacy a { color: var(--text); text-decoration: underline; text-decoration-thickness: 1px; }
+
+    /* ── Footer ────────────────────────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding-top: 40px;
+      border-top: 1px solid var(--border-soft);
+      margin-top: 40px;
+      font-size: 12.5px;
+      color: var(--text-faint);
+    }
+    footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+      margin: 0 8px;
+    }
+    footer a:hover { color: var(--text); }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- ── Hero ─────────────────────────────────────────────────── -->
+    <div class="hero">
+      <img class="hero-logo" src="logo.png" alt="Talk2Me logo" />
+      <h1>Talk2Me</h1>
+      <p class="tagline">AI-powered chat reply assistant for any web chat platform. Select messages, press a shortcut, get a reply that matches your tone.</p>
+    </div>
+
+    <!-- ── How it works ─────────────────────────────────────────── -->
+    <section>
+      <h2>How it works</h2>
+      <ol class="steps">
+        <li>Click into the chat input box on any supported platform</li>
+        <li>Select the recent messages you want as context</li>
+        <li>Press <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>A</kbd></li>
+        <li>Add optional instructions (text or voice) and click <strong>Generate Reply</strong></li>
+        <li>Click <strong>Use It</strong> to inject the reply, or <strong>Retry</strong> for a different take</li>
+      </ol>
+    </section>
+
+    <!-- ── Supported platforms ──────────────────────────────────── -->
+    <section>
+      <h2>Works on</h2>
+      <div class="platforms">
+        <span class="pill" style="color:#1ea952;border-color:#bbf7d0;background:#f0fdf4">WhatsApp</span>
+        <span class="pill" style="color:#4752c4;border-color:#c7d2fe;background:#eef2ff">Discord</span>
+        <span class="pill" style="color:#1c92d2;border-color:#bae6fd;background:#f0f9ff">Telegram</span>
+        <span class="pill" style="color:#c13584;border-color:#fbcfe8;background:#fdf2f8">Instagram</span>
+        <span class="pill" style="color:#1a73e8;border-color:#bfdbfe;background:#eff6ff">Google Chat</span>
+        <span class="pill" style="color:#0a66c2;border-color:#bfdbfe;background:#eff6ff">LinkedIn</span>
+        <span class="pill" style="color:#0064d1;border-color:#bfdbfe;background:#eff6ff">Messenger<span class="beta">β</span></span>
+        <span class="pill" style="color:#1877f2;border-color:#bfdbfe;background:#eff6ff">Facebook<span class="beta">β</span></span>
+        <span class="pill" style="color:#e8345a;border-color:#fecdd3;background:#fff1f2">Tinder<span class="beta">β</span></span>
+      </div>
+    </section>
+
+    <!-- ── Privacy Policy ───────────────────────────────────────── -->
+    <section id="privacy">
+      <h2>Privacy Policy</h2>
+      <p class="privacy-date">Last updated: May 14, 2026</p>
+
+      <h3>What data we process</h3>
+      <p>Talk2Me only processes the chat text you <strong>explicitly select</strong> and only when you press the activation keyboard shortcut (Ctrl+Shift+A). The extension does not:</p>
+      <ul>
+        <li>Read messages in the background</li>
+        <li>Log keystrokes</li>
+        <li>Scrape your chat history</li>
+        <li>Track which sites you visit</li>
+        <li>Collect personal identifiers, location, or browsing history</li>
+      </ul>
+
+      <h3>How your data is used</h3>
+      <p>When you trigger the shortcut, the selected text is sent over HTTPS to our backend server, which forwards it to <a href="https://groq.com" target="_blank" rel="noopener">Groq Inc.</a>'s AI inference API for processing. The generated reply is returned to your browser and shown in the floating prompt box.</p>
+      <p>We do not store conversation content, user identifiers, or any persistent record of your chats on our servers. The selected text is held in memory only for the duration of the API request.</p>
+
+      <h3>Data sharing</h3>
+      <p>We do not sell, rent, or share your data with third parties for advertising, marketing, or any other purpose. Your selected text is shared only with Groq Inc. for the sole purpose of generating an AI reply, subject to <a href="https://groq.com/privacy-policy" target="_blank" rel="noopener">Groq's privacy policy</a>.</p>
+
+      <h3>Data we never collect</h3>
+      <ul>
+        <li>Personally identifiable information (name, email, phone)</li>
+        <li>Authentication credentials</li>
+        <li>Financial or payment information</li>
+        <li>Health information</li>
+        <li>Web browsing history</li>
+        <li>Location data</li>
+      </ul>
+
+      <h3>Local storage</h3>
+      <p>The extension stores one preference locally in your browser: the backend server URL. This is stored using Chrome's built-in <code>chrome.storage.local</code> API and never leaves your device. Uninstalling the extension removes this preference.</p>
+
+      <h3>Your choices</h3>
+      <p>You can stop using Talk2Me at any time by uninstalling the extension via <code>chrome://extensions</code>. The shortcut will no longer work, no data will be processed, and all locally stored preferences are removed.</p>
+
+      <h3>Changes to this policy</h3>
+      <p>If we change how Talk2Me handles data, we will update this page and bump the "Last updated" date above. Material changes will be reflected in an updated extension release with corresponding release notes.</p>
+
+      <h3>Contact</h3>
+      <p>Questions about this policy? Open an issue on our <a href="https://github.com/Ujjwal990/talk2me/issues" target="_blank" rel="noopener">GitHub repository</a>.</p>
+    </section>
+
+    <!-- ── Footer ───────────────────────────────────────────────── -->
+    <footer>
+      <a href="https://github.com/Ujjwal990/talk2me" target="_blank" rel="noopener">GitHub</a>
+      <span>·</span>
+      <a href="#privacy">Privacy</a>
+      <span>·</span>
+      <a href="https://github.com/Ujjwal990/talk2me/issues" target="_blank" rel="noopener">Support</a>
+      <div style="margin-top:14px;font-size:11px;letter-spacing:0.04em;">© 2026 Talk2Me</div>
+    </footer>
+
+  </div>
+</body>
+</html>
