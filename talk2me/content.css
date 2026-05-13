@@ -1,0 +1,301 @@
+/* ── Talk2Me floating prompt box ─────────────────────────────────────────── */
+/* Design: minimalist monochrome — neutral grays, single muted accent.        */
+
+#talk2me-box {
+  position: fixed;
+  z-index: 2147483647;
+  width: 380px;
+  background: #18181b;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  box-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.5),
+    0 12px 28px -4px rgba(0, 0, 0, 0.55),
+    0 4px 12px -2px rgba(0, 0, 0, 0.35);
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+  font-size: 13px;
+  color: #e4e4e7;
+  padding: 14px;
+  box-sizing: border-box;
+  user-select: none;
+  transition: box-shadow 0.15s ease;
+}
+
+#talk2me-box.t2m-dragging {
+  box-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.5),
+    0 24px 48px -8px rgba(0, 0, 0, 0.7),
+    0 8px 24px -4px rgba(0, 0, 0, 0.5);
+  cursor: grabbing;
+}
+
+/* Header — drag handle */
+#talk2me-box .t2m-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  cursor: grab;
+  padding: 2px 0;
+}
+#talk2me-box.t2m-dragging .t2m-header { cursor: grabbing; }
+
+#talk2me-box .t2m-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#talk2me-box .t2m-drag-grip {
+  color: #52525b;
+  font-size: 12px;
+  letter-spacing: -2px;
+  font-weight: 700;
+  user-select: none;
+  line-height: 1;
+}
+
+#talk2me-box .t2m-logo {
+  font-size: 13px;
+  font-weight: 600;
+  color: #fafafa;
+  letter-spacing: -0.01em;
+}
+
+#talk2me-box .t2m-close {
+  background: none;
+  border: none;
+  color: #71717a;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 4px 7px;
+  border-radius: 5px;
+  transition: color 0.12s, background 0.12s;
+}
+#talk2me-box .t2m-close:hover {
+  color: #fafafa;
+  background: #27272a;
+}
+
+/* Context badge */
+#talk2me-box .t2m-context-badge {
+  background: #27272a;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 11px;
+  color: #a1a1aa;
+  margin-bottom: 12px;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Textarea + mic row */
+#talk2me-box .t2m-input-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+  align-items: stretch;
+}
+
+#talk2me-box .t2m-extra {
+  flex: 1;
+  background: #27272a;
+  border: 1px solid #3f3f46;
+  border-radius: 7px;
+  color: #fafafa;
+  padding: 8px 10px;
+  font-size: 13px;
+  font-family: inherit;
+  resize: none;
+  outline: none;
+  transition: border-color 0.15s;
+  line-height: 1.45;
+  user-select: text;
+}
+#talk2me-box .t2m-extra:focus { border-color: #71717a; }
+#talk2me-box .t2m-extra::placeholder { color: #52525b; }
+
+#talk2me-box .t2m-mic {
+  flex-shrink: 0;
+  width: 38px;
+  background: #27272a;
+  border: 1px solid #3f3f46;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+  color: #a1a1aa;
+}
+#talk2me-box .t2m-mic:hover {
+  border-color: #71717a;
+  color: #fafafa;
+}
+#talk2me-box .t2m-mic.t2m-mic-on {
+  background: #ef4444;
+  border-color: #ef4444;
+  color: #fff;
+  animation: t2m-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes t2m-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  50%      { box-shadow: 0 0 0 5px rgba(239, 68, 68, 0); }
+}
+
+/* Generate button — solid neutral, no gradient */
+#talk2me-box .t2m-generate-btn {
+  width: 100%;
+  padding: 9px;
+  background: #fafafa;
+  border: none;
+  border-radius: 7px;
+  color: #18181b;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.08s;
+  font-family: inherit;
+  letter-spacing: -0.01em;
+}
+#talk2me-box .t2m-generate-btn:hover { background: #e4e4e7; }
+#talk2me-box .t2m-generate-btn:active { transform: scale(0.99); }
+#talk2me-box .t2m-generate-btn:disabled {
+  background: #3f3f46;
+  color: #71717a;
+  cursor: not-allowed;
+}
+
+/* Loading */
+#talk2me-box .t2m-loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0 2px;
+  color: #71717a;
+  font-size: 12px;
+}
+
+#talk2me-box .t2m-spinner {
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid #3f3f46;
+  border-top-color: #fafafa;
+  border-radius: 50%;
+  animation: t2m-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes t2m-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Error */
+#talk2me-box .t2m-error-msg {
+  margin-top: 10px;
+  padding: 8px 10px;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.18);
+  border-radius: 6px;
+  color: #fca5a5;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+/* Result area */
+#talk2me-box .t2m-result {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+#talk2me-box .t2m-result-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #71717a;
+  margin-bottom: 7px;
+  font-weight: 500;
+}
+
+#talk2me-box .t2m-result-text {
+  background: #27272a;
+  border: 1px solid #3f3f46;
+  border-radius: 7px;
+  padding: 9px 11px;
+  color: #fafafa;
+  font-size: 13px;
+  line-height: 1.55;
+  word-break: break-word;
+  white-space: pre-wrap;
+  max-height: 140px;
+  overflow-y: auto;
+  user-select: text;
+}
+
+/* Result action buttons */
+#talk2me-box .t2m-result-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+#talk2me-box .t2m-use-btn {
+  flex: 1;
+  padding: 8px;
+  background: #fafafa;
+  border: none;
+  border-radius: 7px;
+  color: #18181b;
+  font-weight: 600;
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: background 0.15s;
+  font-family: inherit;
+}
+#talk2me-box .t2m-use-btn:hover { background: #e4e4e7; }
+
+#talk2me-box .t2m-retry-btn {
+  padding: 8px 14px;
+  background: transparent;
+  border: 1px solid #3f3f46;
+  border-radius: 7px;
+  color: #a1a1aa;
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+  white-space: nowrap;
+  font-family: inherit;
+}
+#talk2me-box .t2m-retry-btn:hover {
+  border-color: #71717a;
+  color: #fafafa;
+}
+
+/* ── Toast notification ──────────────────────────────────────────────────── */
+.t2m-toast {
+  position: fixed;
+  bottom: 22px;
+  right: 22px;
+  z-index: 2147483647;
+  background: #18181b;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 9px 14px;
+  color: #e4e4e7;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+  font-size: 12.5px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+  max-width: 300px;
+  line-height: 1.4;
+  animation: t2m-toast-in 0.18s ease;
+}
+
+@keyframes t2m-toast-in {
+  from { transform: translateY(6px); opacity: 0; }
+  to   { transform: translateY(0);   opacity: 1; }
+}

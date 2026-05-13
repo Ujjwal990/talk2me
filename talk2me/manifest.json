@@ -1,0 +1,54 @@
+{
+  "manifest_version": 3,
+  "name": "Talk2Me",
+  "version": "1.0.0",
+  "description": "AI-powered next message predictor for any chat platform",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "exclude_matches": [
+        "https://app.slack.com/*",
+        "https://*.slack.com/*",
+        "https://x.com/*",
+        "https://twitter.com/*"
+      ],
+      "js": ["platform-configs.js", "content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "options_page": "settings.html",
+  "commands": {
+    "trigger-talk2me": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+A",
+        "mac": "MacCtrl+Shift+A"
+      },
+      "description": "Generate AI chat reply for selected text"
+    }
+  }
+}
