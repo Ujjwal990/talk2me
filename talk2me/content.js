@@ -500,7 +500,7 @@
     return new Promise((resolve) => {
       chrome.storage.local.get(['backendUrl'], (r) => {
         resolve({
-          backendUrl: r.backendUrl || 'http://localhost:3000',
+          backendUrl: r.backendUrl || 'https://talk2me-backend-production-538e.up.railway.app',
         });
       });
     });
