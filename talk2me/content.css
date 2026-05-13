@@ -124,12 +124,16 @@
   border: 1px solid #3f3f46;
   border-radius: 7px;
   cursor: pointer;
-  font-size: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: border-color 0.15s, background 0.15s, color 0.15s;
   color: #a1a1aa;
+  padding: 0;
+}
+#talk2me-box .t2m-mic svg {
+  display: block;
+  pointer-events: none;
 }
 #talk2me-box .t2m-mic:hover {
   border-color: #71717a;

@@ -148,7 +148,13 @@
       <div class="t2m-context-badge">${contextLabel}</div>
       <div class="t2m-input-row">
         <textarea class="t2m-extra" placeholder="Add context or instructions (optional)..." rows="2" spellcheck="false"></textarea>
-        <button class="t2m-mic" title="Dictate instructions">🎤</button>
+        <button class="t2m-mic" title="Dictate instructions">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="2" width="6" height="13" rx="3"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" x2="12" y1="19" y2="22"/>
+          </svg>
+        </button>
       </div>
       <button class="t2m-generate-btn">✨ Generate Reply</button>
       <div class="t2m-loading" style="display:none">
@@ -496,12 +502,16 @@
   }
 
   // ─── Settings ─────────────────────────────────────────────────────────────
+  const DEFAULT_BACKEND_URL = 'https://talk2me-backend-production-538e.up.railway.app';
+
   function loadSettings() {
     return new Promise((resolve) => {
       chrome.storage.local.get(['backendUrl'], (r) => {
-        resolve({
-          backendUrl: r.backendUrl || 'https://talk2me-backend-production-538e.up.railway.app',
-        });
+        // Migrate stale localhost URLs from early testing — there is no
+        // settings UI anymore for the user to update it manually.
+        const isStaleLocalhost = r.backendUrl && /localhost|127\.0\.0\.1/.test(r.backendUrl);
+        const url = (!isStaleLocalhost && r.backendUrl) || DEFAULT_BACKEND_URL;
+        resolve({ backendUrl: url });
       });
     });
   }

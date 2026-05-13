@@ -4,83 +4,242 @@
   <meta charset="utf-8" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      width: 260px;
-      padding: 18px 16px 16px;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #0f172a;
-      color: #e2e8f0;
+      width: 320px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+      background: #f7f7f8;
+      color: #18181b;
+      padding: 22px 20px 18px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Header ─────────────────────────────────────────────────────── */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 22px;
     }
     .logo {
-      font-size: 20px;
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.04);
+    }
+    .brand-name {
+      font-size: 18px;
       font-weight: 700;
-      background: linear-gradient(90deg, #a78bfa, #38bdf8);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 4px;
+      letter-spacing: -0.025em;
+      color: #09090b;
+      line-height: 1.1;
     }
     .tagline {
-      font-size: 12px;
-      color: #475569;
-      margin-bottom: 16px;
+      font-size: 11.5px;
+      color: #71717a;
+      margin-top: 3px;
+      letter-spacing: -0.005em;
     }
-    .shortcut-box {
-      background: #1e293b;
-      border-radius: 8px;
-      padding: 10px 12px;
-      font-size: 12px;
-      color: #94a3b8;
-      margin-bottom: 14px;
-      line-height: 1.6;
-    }
-    .shortcut-box strong { color: #e2e8f0; display: block; margin-bottom: 4px; }
-    kbd {
-      background: #0f172a;
-      border: 1px solid #334155;
-      border-radius: 4px;
-      padding: 1px 6px;
-      font-family: monospace;
-      font-size: 11px;
-      color: #e2e8f0;
-    }
-    .warning {
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.25);
-      border-radius: 8px;
-      padding: 8px 10px;
-      font-size: 11px;
-      color: #fca5a5;
-      margin-bottom: 14px;
-      display: none;
-    }
-    .settings-link {
-      display: block;
-      text-align: center;
-      padding: 9px;
-      background: linear-gradient(90deg, #7c3aed, #0ea5e9);
-      border-radius: 8px;
-      color: #fff;
-      text-decoration: none;
-      font-size: 13px;
+
+    /* ── Sections ───────────────────────────────────────────────────── */
+    section + section { margin-top: 18px; }
+
+    .section-label {
+      font-size: 9.5px;
       font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #a1a1aa;
+      margin-bottom: 11px;
     }
-    .settings-link:hover { opacity: 0.9; }
+
+    /* ── Steps ──────────────────────────────────────────────────────── */
+    .steps {
+      list-style: none;
+      counter-reset: step;
+      font-size: 12.5px;
+      line-height: 1.55;
+      color: #3f3f46;
+    }
+    .steps li {
+      counter-increment: step;
+      padding-left: 26px;
+      position: relative;
+      margin-bottom: 7px;
+    }
+    .steps li:last-child { margin-bottom: 0; }
+    .steps li::before {
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 18px;
+      height: 18px;
+      background: #ffffff;
+      border: 1px solid #e4e4e7;
+      border-radius: 50%;
+      font-size: 10.5px;
+      font-weight: 600;
+      color: #52525b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    kbd {
+      background: #ffffff;
+      border: 1px solid #e4e4e7;
+      border-bottom-width: 1.5px;
+      border-radius: 4px;
+      padding: 1px 5px;
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 10.5px;
+      color: #18181b;
+      font-weight: 500;
+      display: inline-block;
+      vertical-align: baseline;
+    }
+
+    /* ── Platform pills ─────────────────────────────────────────────── */
+    .platforms {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 500;
+      border: 1px solid;
+      line-height: 1.55;
+      letter-spacing: -0.005em;
+    }
+
+    /* β indicator — subtle Greek letter for platforms not yet verified */
+    .beta {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 500;
+      font-style: italic;
+      opacity: 0.55;
+      margin-left: -2px;
+      line-height: 1;
+      cursor: help;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────── */
+    .footer {
+      margin-top: 20px;
+      padding-top: 14px;
+      border-top: 1px solid #e4e4e7;
+      font-size: 10px;
+      color: #a1a1aa;
+      text-align: center;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Siri-style edge glow on popup open ─────────────────────────── */
+    /* Two vertical glow bars on left and right edges. Heavy blur makes
+       them look like light bleeding in from outside the popup. Multi-color
+       gradient shifts position slowly for the "alive" shimmer feel.       */
+
+    body::before,
+    body::after {
+      content: '';
+      position: fixed;
+      top: -10%;
+      bottom: -10%;
+      width: 38px;
+      pointer-events: none;
+      z-index: 9999;
+      filter: blur(14px);
+      opacity: 0;
+      background-size: 100% 220%;
+    }
+
+    /* Left edge */
+    body::before {
+      left: -28px;
+      background-image: linear-gradient(180deg,
+        #ff6b9d 0%,
+        #c084fc 30%,
+        #60a5fa 55%,
+        #34d399 80%,
+        #ff6b9d 100%
+      );
+      animation:
+        siri-shimmer 8s ease-in-out infinite alternate,
+        siri-fade 4s ease forwards;
+    }
+
+    /* Right edge — colors swapped so the two sides feel distinct */
+    body::after {
+      right: -28px;
+      background-image: linear-gradient(180deg,
+        #34d399 0%,
+        #60a5fa 30%,
+        #c084fc 55%,
+        #ff6b9d 80%,
+        #34d399 100%
+      );
+      animation:
+        siri-shimmer 8s ease-in-out infinite alternate,
+        siri-fade 4s ease forwards;
+      /* offset so left & right don't shimmer in lockstep */
+      animation-delay: -4s, 0s;
+    }
+
+    @keyframes siri-shimmer {
+      0%   { background-position: 0% 0%; }
+      100% { background-position: 0% 100%; }
+    }
+
+    @keyframes siri-fade {
+      0%   { opacity: 0; }
+      12%  { opacity: 1; }
+      82%  { opacity: 1; }
+      100% { opacity: 0; }
+    }
   </style>
 </head>
 <body>
-  <div class="logo">Talk2Me</div>
-  <div class="tagline">AI chat reply predictor</div>
-
-  <div class="shortcut-box">
-    <strong>How to use</strong>
-    1. Click into the chat input box<br>
-    2. Select the chat messages<br>
-    3. Press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>A</kbd>
+  <div class="header">
+    <img class="logo" src="icons/icon128.png" alt="Talk2Me" />
+    <div>
+      <div class="brand-name">Talk2Me</div>
+      <div class="tagline">AI chat reply predictor</div>
+    </div>
   </div>
 
-  <a class="settings-link" href="settings.html" target="_blank">⚙ Open Settings</a>
+  <section>
+    <div class="section-label">How to use</div>
+    <ol class="steps">
+      <li>Click into the chat input box</li>
+      <li>Select the messages you want as context</li>
+      <li>Press <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>A</kbd></li>
+    </ol>
+  </section>
 
-  <script src="popup.js"></script>
+  <section>
+    <div class="section-label">Works on</div>
+    <div class="platforms">
+      <span class="pill" style="color:#1ea952;border-color:#bbf7d0;background:#f0fdf4">WhatsApp</span>
+      <span class="pill" style="color:#4752c4;border-color:#c7d2fe;background:#eef2ff">Discord</span>
+      <span class="pill" style="color:#1c92d2;border-color:#bae6fd;background:#f0f9ff">Telegram</span>
+      <span class="pill" style="color:#c13584;border-color:#fbcfe8;background:#fdf2f8">Instagram</span>
+      <span class="pill" style="color:#1a73e8;border-color:#bfdbfe;background:#eff6ff">Google Chat</span>
+      <span class="pill" style="color:#0a66c2;border-color:#bfdbfe;background:#eff6ff">LinkedIn</span>
+      <span class="pill" style="color:#0064d1;border-color:#bfdbfe;background:#eff6ff">Messenger<span class="beta" title="Beta — not yet fully tested">β</span></span>
+      <span class="pill" style="color:#1877f2;border-color:#bfdbfe;background:#eff6ff">Facebook<span class="beta" title="Beta — not yet fully tested">β</span></span>
+      <span class="pill" style="color:#e8345a;border-color:#fecdd3;background:#fff1f2">Tinder<span class="beta" title="Beta — not yet fully tested">β</span></span>
+    </div>
+  </section>
+
+  <div class="footer">v1.0.0</div>
 </body>
 </html>

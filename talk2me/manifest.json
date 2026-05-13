@@ -41,7 +41,6 @@
       "128": "icons/icon128.png"
     }
   },
-  "options_page": "settings.html",
   "commands": {
     "trigger-talk2me": {
       "suggested_key": {
